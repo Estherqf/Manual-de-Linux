@@ -1,0 +1,432 @@
+\documentclass[12pt,a4paper]{article}
+
+% -------------------- PAQUETES --------------------
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{longtable}
+\usepackage{tabularx}
+\usepackage{ltablex}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{hyperref}
+\usepackage{amsmath}
+
+\geometry{margin=2.5cm}
+\setlength{\extrarowheight}{4pt}
+\keepXColumns
+
+% -------------------- CONFIGURACIÓN DE CÓDIGO --------------------
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+
+\lstset{
+    language=bash,
+    backgroundcolor=\color{backcolour},
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{blue},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    frame=single,
+    showstringspaces=false,
+    tabsize=2
+}
+
+% -------------------- DOCUMENTO --------------------
+\begin{document}
+
+\title{Guía Maestra Integral de Administración y Scripting en Linux}
+\author{Esther Quiroga}
+\date{Febrero 2026}
+\maketitle
+
+\tableofcontents
+\newpage
+
+% =====================================================
+\section{Introducción y Objetivo}
+
+Este manual técnico integral ha sido desarrollado como una bitácora de aprendizaje profundo sobre administración de sistemas Linux y automatización mediante Bash.
+
+Su objetivo es:
+
+\begin{itemize}
+\item Dominar la terminal Linux
+\item Gestionar archivos y directorios con seguridad
+\item Administrar procesos y permisos
+\item Automatizar tareas mediante scripting
+\item Diagnosticar errores reales en sistemas
+\end{itemize}
+
+Está diseñado para nivel universitario en Ingeniería/Informática.
+
+% =====================================================
+\section{Sección I: Comandos Básicos (Navegación y Archivos)}
+
+Esta sección aborda la interacción fundamental con el sistema de archivos jerárquico de Linux.  
+Se estudian rutas absolutas y relativas, manipulación de archivos, gestión de espacio y ayuda interna del sistema.
+
+\renewcommand{\arraystretch}{1.4}
+
+\begin{longtable}{|p{2.5cm}|p{5cm}|p{6cm}|}
+\hline
+\textbf{Comando} & \textbf{Descripción Técnica} & \textbf{Ejemplos} \\ \hline
+
+ls &
+Lista contenido de directorios. Permite visualizar permisos, tamaños, fechas y archivos ocultos. &
+\begin{lstlisting}
+ls -lah
+\end{lstlisting}
+\begin{lstlisting}
+ls -tR /etc
+\end{lstlisting} \\ \hline
+
+cd &
+Cambia el directorio actual usando rutas relativas o absolutas. &
+\begin{lstlisting}
+cd /etc
+\end{lstlisting}
+\begin{lstlisting}
+cd ..
+\end{lstlisting} \\ \hline
+
+pwd &
+Muestra la ruta absoluta actual. &
+\begin{lstlisting}
+pwd
+\end{lstlisting}
+\begin{lstlisting}
+DIR=$(pwd)
+\end{lstlisting} \\ \hline
+
+mkdir &
+Crea directorios. Con -p crea estructuras completas. &
+\begin{lstlisting}
+mkdir proyectos
+\end{lstlisting}
+\begin{lstlisting}
+mkdir -p backup/2026/febrero
+\end{lstlisting} \\ \hline
+
+cp &
+Copia archivos o directorios (-r recursivo). &
+\begin{lstlisting}
+cp archivo.txt copia.txt
+\end{lstlisting}
+\begin{lstlisting}
+cp -r dir1 dir2
+\end{lstlisting} \\ \hline
+
+mv &
+Mueve o renombra archivos. &
+\begin{lstlisting}
+mv viejo.txt nuevo.txt
+\end{lstlisting}
+\begin{lstlisting}
+mv *.jpg ~/Imagenes/
+\end{lstlisting} \\ \hline
+
+rm &
+Elimina archivos (-r recursivo, -f forzado). &
+\begin{lstlisting}
+rm archivo.tmp
+\end{lstlisting}
+\begin{lstlisting}
+rm -rf carpeta/
+\end{lstlisting} \\ \hline
+
+touch &
+Crea archivos vacíos o modifica timestamp. &
+\begin{lstlisting}
+touch notas.txt
+\end{lstlisting}
+\begin{lstlisting}
+touch -t 202602221200 archivo.txt
+\end{lstlisting} \\ \hline
+
+cat &
+Concatena y muestra archivos. &
+\begin{lstlisting}
+cat config.conf
+\end{lstlisting}
+\begin{lstlisting}
+cat a.txt b.txt > unido.txt
+\end{lstlisting} \\ \hline
+
+du &
+Muestra uso de espacio en disco. &
+\begin{lstlisting}
+du -sh /home
+\end{lstlisting}
+\begin{lstlisting}
+du -h --max-depth=1
+\end{lstlisting} \\ \hline
+
+df &
+Muestra espacio disponible en discos montados. &
+\begin{lstlisting}
+df -h
+\end{lstlisting}
+\begin{lstlisting}
+df -T /
+\end{lstlisting} \\ \hline
+
+echo &
+Imprime texto o variables. &
+\begin{lstlisting}
+echo "Hola Mundo"
+\end{lstlisting}
+\begin{lstlisting}
+echo $PATH
+\end{lstlisting} \\ \hline
+
+\end{longtable}
+
+% =====================================================
+\section{Sección II: Comandos Avanzados (Sistema y Filtros)}
+
+Aquí se profundiza en permisos, procesos, filtrado de texto y red.  
+Se estudia el modelo de seguridad rwx (usuario/grupo/otros) y el uso de herramientas de procesamiento.
+
+\begin{longtable}{|p{2.5cm}|p{5cm}|p{6cm}|}
+\hline
+\textbf{Comando} & \textbf{Descripción} & \textbf{Ejemplos} \\ \hline
+
+chmod &
+Modifica permisos usando notación simbólica o numérica. &
+\begin{lstlisting}
+chmod 755 script.sh
+\end{lstlisting}
+\begin{lstlisting}
+chmod u+x instalador.sh
+\end{lstlisting} \\ \hline
+
+chown &
+Cambia propietario y grupo. &
+\begin{lstlisting}
+sudo chown usuario archivo.txt
+\end{lstlisting}
+\begin{lstlisting}
+sudo chown -R user:group dir/
+\end{lstlisting} \\ \hline
+
+grep &
+Busca patrones usando expresiones regulares. &
+\begin{lstlisting}
+grep "ERROR" log.txt
+\end{lstlisting}
+\begin{lstlisting}
+grep -r "TODO" .
+\end{lstlisting} \\ \hline
+
+find &
+Busca archivos por nombre, tamaño o fecha. &
+\begin{lstlisting}
+find . -name "*.pdf"
+\end{lstlisting}
+\begin{lstlisting}
+find /var -size +100M
+\end{lstlisting} \\ \hline
+
+ps &
+Lista procesos activos. &
+\begin{lstlisting}
+ps aux
+\end{lstlisting}
+\begin{lstlisting}
+ps -ef | grep nginx
+\end{lstlisting} \\ \hline
+
+top &
+Monitor dinámico del sistema. &
+\begin{lstlisting}
+top
+\end{lstlisting}
+\begin{lstlisting}
+top -u usuario
+\end{lstlisting} \\ \hline
+
+kill &
+Envía señales a procesos. &
+\begin{lstlisting}
+kill 1234
+\end{lstlisting}
+\begin{lstlisting}
+kill -9 1234
+\end{lstlisting} \\ \hline
+
+awk &
+Procesamiento avanzado de texto por columnas. &
+\begin{lstlisting}
+awk '{print $1}' archivo.txt
+\end{lstlisting}
+\begin{lstlisting}
+awk -F: '{print $1}' /etc/passwd
+\end{lstlisting} \\ \hline
+
+sed &
+Editor de flujo para modificar texto. &
+\begin{lstlisting}
+sed 's/old/new/g' archivo.txt
+\end{lstlisting}
+\begin{lstlisting}
+sed -i '/error/d' log.txt
+\end{lstlisting} \\ \hline
+
+ping &
+Verifica conectividad de red. &
+\begin{lstlisting}
+ping google.com
+\end{lstlisting}
+\begin{lstlisting}
+ping -c 4 8.8.8.8
+\end{lstlisting} \\ \hline
+
+ip &
+Gestiona interfaces de red. &
+\begin{lstlisting}
+ip addr show
+\end{lstlisting}
+\begin{lstlisting}
+ip route
+\end{lstlisting} \\ \hline
+
+\end{longtable}
+
+% =====================================================
+\section{Sección III: Programación Shell (Bash Scripting)}
+
+Bash permite automatizar tareas combinando comandos con estructuras de programación: variables, condicionales, bucles y funciones.
+
+\subsection*{Estructura básica}
+
+\begin{lstlisting}
+#!/bin/bash
+echo "Hola Mundo"
+\end{lstlisting}
+
+\begin{lstlisting}
+#!/bin/bash
+set -e
+echo "Script profesional"
+\end{lstlisting}
+
+\subsection*{If - Else}
+
+\begin{lstlisting}
+if [ -f archivo.txt ]; then
+ echo "Existe"
+else
+ echo "No existe"
+fi
+\end{lstlisting}
+
+\begin{lstlisting}
+if [[ $1 -gt 10 ]]; then
+ echo "Mayor que 10"
+fi
+\end{lstlisting}
+
+\subsection*{For}
+
+\begin{lstlisting}
+for i in {1..5}; do
+ echo $i
+done
+\end{lstlisting}
+
+\begin{lstlisting}
+for file in *.txt; do
+ echo $file
+done
+\end{lstlisting}
+
+\subsection*{While}
+
+\begin{lstlisting}
+contador=1
+while [ $contador -le 5 ]; do
+ echo $contador
+ ((contador++))
+done
+\end{lstlisting}
+
+\begin{lstlisting}
+while read linea; do
+ echo $linea
+done < archivo.txt
+\end{lstlisting}
+
+\subsection*{Script Profesional de Backup}
+
+\begin{lstlisting}
+#!/bin/bash
+DESTINO="/backup"
+ORIGEN="/home/usuario/docs"
+FECHA=$(date +%Y-%m-%d)
+
+mkdir -p $DESTINO
+tar -czf $DESTINO/backup_$FECHA.tar.gz $ORIGEN
+
+if [ $? -eq 0 ]; then
+ echo "Backup exitoso"
+else
+ echo "Error en backup" >&2
+fi
+\end{lstlisting}
+
+% =====================================================
+\section{Sección IV: Diagnóstico de Errores}
+
+\begin{longtable}{|p{4cm}|p{5cm}|p{5cm}|}
+\hline
+\textbf{Error} & \textbf{Causa} & \textbf{Solución} \\ \hline
+Permission denied & Falta permisos & chmod o sudo \\ \hline
+Command not found & PATH incorrecto & export PATH \\ \hline
+No such file & Ruta errónea & Verificar con ls \\ \hline
+Directory not empty & Uso incorrecto de rmdir & rm -r \\ \hline
+Bad interpreter & Shebang incorrecto & dos2unix o revisar #! \\ \hline
+Out of memory & Proceso excesivo & top + kill \\ \hline
+Connection refused & Servicio detenido & systemctl start \\ \hline
+\end{longtable}
+
+% =====================================================
+\section{Sección V: Tuberías y Redireccionamientos}
+
+Flujos estándar:
+stdin (0), stdout (1), stderr (2)
+
+\begin{lstlisting}
+ls /etc | grep "conf"
+\end{lstlisting}
+
+\begin{lstlisting}
+cat datos.txt | sort | uniq | wc -l
+\end{lstlisting}
+
+\begin{lstlisting}
+ls /inexistente 2> errores.log
+\end{lstlisting}
+
+\begin{lstlisting}
+comando > salida.log 2>&1
+\end{lstlisting}
+
+% =====================================================
+\section{Anexo de Transparencia IA}
+
+\begin{longtable}{|p{3cm}|p{6cm}|p{5cm}|}
+\hline
+IA Utilizada & Uso & Parte Generada \\ \hline
+Grok 4 (xAI) & Generación estructural inicial & Primer manual completo \\ \hline
+ChatGPT & Optimización, ampliación técnica & Tablas, scripting avanzado y corrección \\ \hline
+Gemini 1.5 & Reformulación académica & Mejora de redacción y tablas \\ \hline
+\end{longtable}
+
+\end{document}
