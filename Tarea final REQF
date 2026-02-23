@@ -429,4 +429,65 @@ ChatGPT & Optimización, ampliación técnica & Tablas, scripting avanzado y cor
 Gemini 1.5 & Reformulación académica & Mejora de redacción y tablas \\ \hline
 \end{longtable}
 
+
+% -----------------------------------------------------
+\subsection{Prompt Principal de Generación Inicial}
+
+El siguiente prompt fue utilizado como instrucción base para generar la primera versión estructural del manual:
+
+\begin{lstlisting}
+Actúa como un estudiante de informática investigando profundo y detallado.
+
+Siguiendo el documento proporcionado y agregando más contenido, tu tarea es generar el código fuente en LaTeX para un manual del uso de la terminal, gestión de archivos y automatización mediante Shell Scripting en Linux.El manual debe ser claro, didáctico y extremadamente detallado.La estructura principal será una tabla que contenga toda la información.
+
+Según el documento el manual debe tener 5 secciones (agregándole más comandos).
+
+Al inicio de cada sección debe explicar de qué trata la sección detalladamente.
+
+Debe haber dos ejemplos por comando.
+
+Los ejemplos deben ser realistas y claramente formados.
+
+Genera el código LaTeX completo optimizado para tablas anchas.
+\end{lstlisting}
+
+\textbf{Objetivo del prompt:}
+
+\begin{itemize}
+\item Forzar profundidad técnica.
+\item Exigir estructura académica organizada.
+\item Garantizar ejemplos prácticos (mínimo 2 por comando).
+\item Optimizar el código para tablas extensas.
+\item Mantener claridad didáctica.
+\end{itemize}
+
+% -----------------------------------------------------
+\subsection{Prompt de Corrección y Unificación}
+
+Posteriormente se utilizó un segundo prompt para integrar y mejorar las tres versiones generadas:
+
+\begin{lstlisting}
+Corrige y une la información de los 3 diferentes códigos
+de LaTeX según me convenga al momento de estudiarlo.
+
+Ten en cuenta toda la información de los códigos.
+No olvides los ejemplos (son lo más importante).
+
+Incluye la descripción inicial detallada de cada sección.
+
+Agrega las IAs utilizadas.
+NO TE LIMITES.
+\end{lstlisting}
+
+\textbf{Objetivo del segundo prompt:}
+
+\begin{itemize}
+\item Eliminar redundancias.
+\item Corregir errores sintácticos en LaTeX.
+\item Integrar todos los ejemplos generados.
+\item Mejorar coherencia estructural.
+\item Elevar el nivel técnico.
+\item Añadir transparencia metodológica.
+\end{itemize}
+
 \end{document}
